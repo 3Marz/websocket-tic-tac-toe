@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="/public/css/tw.css" rel="stylesheet">
+	<title>Tic-Tac-Toe</title>
+</head>
+
+<body class="text-zinc-300 bg-zinc-900 gap-14 flex flex-col items-center justify-center place-items-center h-dvh">
+	<div>
+		<button id="connect" class="rounded-full border p-4 text-xl text-gray-400 hover:text-white">Connect</button>
+		<button id="close" class="rounded-full border p-4 text-xl text-gray-400 hover:text-white">Close</button>
+	</div>
+	<div class="grid-cols-3 grid-rows-3 grid relative" id="board">
+		<span onclick="sendPlay(this)" col="0" row="0"
+			class="cursor-pointer min-w-24 max-w-24 md:min-w-32 md:max-w-32 aspect-square text-center text-6xl hover:border-white border-b-2 border-r-2 border-gray-500 p-5"></span>
+		<span onclick="sendPlay(this)" col="1" row="0"
+			class="cursor-pointer min-w-24 max-w-24 md:min-w-32 md:max-w-32 aspect-square text-center text-6xl hover:border-white border-b-2 border-l-2 border-r-2 border-gray-500 p-5"></span>
+		<span onclick="sendPlay(this)" col="2" row="0"
+			class="cursor-pointer min-w-24 max-w-24 md:min-w-32 md:max-w-32 aspect-square text-center text-6xl hover:border-white border-b-2 border-l-2 border-gray-500 p-5"></span>
+		<span onclick="sendPlay(this)" col="0" row="1"
+			class="cursor-pointer min-w-24 max-w-24 md:min-w-32 md:max-w-32 aspect-square text-center text-6xl hover:border-white border-r-2 border-t-2 border-b-2 border-gray-500 p-5"></span>
+		<span onclick="sendPlay(this)" col="1" row="1"
+			class="cursor-pointer min-w-24 max-w-24 md:min-w-32 md:max-w-32 aspect-square text-center text-6xl hover:border-white border-2 border-gray-500 p-5"></span>
+		<span onclick="sendPlay(this)" col="2" row="1"
+			class="cursor-pointer min-w-24 max-w-24 md:min-w-32 md:max-w-32 aspect-square text-center text-6xl hover:border-white border-l-2 border-t-2 border-b-2 border-gray-500 p-5"></span>
+		<span onclick="sendPlay(this)" col="0" row="2"
+			class="cursor-pointer min-w-24 max-w-24 md:min-w-32 md:max-w-32 aspect-square text-center text-6xl hover:border-white border-t-2 border-r-2 border-gray-500 p-5"></span>
+		<span onclick="sendPlay(this)" col="1" row="2"
+			class="cursor-pointer min-w-24 max-w-24 md:min-w-32 md:max-w-32 aspect-square text-center text-6xl hover:border-white border-l-2 border-r-2 border-t-2 border-gray-500 p-5"></span>
+		<span onclick="sendPlay(this)" col="2" row="2"
+			class="cursor-pointer min-w-24 max-w-24 md:min-w-32 md:max-w-32 aspect-square text-center text-6xl hover:border-white border-t-2 border-l-2 border-gray-500 p-5"></span>
+
+		<div id="loading" class="absolute rounded w-full h-full flex text-center items-center justify-center bg-black opacity-80 text-3xl"></div>
+	</div>
+	<script src="/public/js/handleWebSocket.js"></script>
+</body>
+
+</html>
