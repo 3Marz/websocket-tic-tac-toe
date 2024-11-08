@@ -13,7 +13,7 @@ function toggleLoading() {
 
 connectButton.addEventListener('click', () => {
 	if(ws) {return}
-	ws = new WebSocket("http://localhost:5050/ws");
+	ws = new WebSocket("http://" + window.location.host + "/ws");
 	ws.onopen = function(evt) {
 		resetBoard()
 		connectButton.innerText = 'Connected';
