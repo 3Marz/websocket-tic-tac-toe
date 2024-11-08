@@ -50,6 +50,9 @@ func startGame(p1 *Player, p2 *Player) {
 	go p1.readPump()
 	go p2.readPump()
 
+	p1.message <- "Got A Game"
+	p2.message <- "Got A Game"
+
 	if rand.IntN(2) == 0 {
 		p1.mark = "X"
 		p1.message <- "Your Turn"
@@ -61,7 +64,4 @@ func startGame(p1 *Player, p2 *Player) {
 		p2.message <- "Your Turn"
 		p2.mark = "X"
 	}
-
-	p1.message <- "Got A Game"
-	p2.message <- "Got A Game"
 }

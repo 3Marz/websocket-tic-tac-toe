@@ -1,5 +1,6 @@
 
 const loading = document.getElementById("loading")
+const message = document.getElementById("message")
 
 const connectButton = document.getElementById('connect');
 const closeButton = document.getElementById('close');
@@ -28,10 +29,11 @@ connectButton.addEventListener('click', () => {
 		switch (evt.data) {
 			case "Got A Game":
 				toggleLoading()
+				message.innerText = "Got A Game"
 				break
 			case "Your Turn":
 				yourTurn = true
-				console.log("My Turn Bitch")
+				message.innerText = "Your Turn"
 				break
 			default:
 				let board = JSON.parse(evt.data)
@@ -84,5 +86,6 @@ function sendPlay(element) {
 	console.log(JSON.stringify(req))
 	ws.send(JSON.stringify(req))
 	yourTurn = false
+	message.innerText = "Opponent Turn..."
 }
 
