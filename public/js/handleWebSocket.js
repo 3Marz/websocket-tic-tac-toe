@@ -15,6 +15,7 @@ connectButton.addEventListener('click', () => {
 	if(ws) {return}
 	ws = new WebSocket("http://localhost:5050/ws");
 	ws.onopen = function(evt) {
+		resetBoard()
 		connectButton.innerText = 'Connected';
 		loading.innerText = "Wating For An Opponent..."
 		console.log('Connected');
@@ -92,7 +93,6 @@ function resetEverything() {
 	loading.innerText = loading.innerText == "Found An Opponent" ? "Left The Game" : loading.innerText
 	message.innerText = "..."
 	toggleLoading()
-	resetBoard()
 }
 
 function sendPlay(element) {
