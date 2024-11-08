@@ -17,6 +17,7 @@ type Game struct {
 	turn    string
 
 	register chan *Player
+	unregister chan *Player
 
 	board        Board
 	boardChannal chan *Board
@@ -27,6 +28,7 @@ func newGame() *Game {
 		players:      make(map[*Player]bool),
 		turn:         "X",
 		register:     make(chan *Player),
+		unregister:     make(chan *Player),
 		board:        newBoard(),
 		boardChannal: make(chan *Board),
 	}
@@ -38,7 +40,19 @@ func (h *Game) run() {
 		case player := <-h.register:
 			h.players[player] = true
 			fmt.Println("new player joined")
-
+		case player := <-h.unregister:
+			for p := range h.players {
+				if p != player {
+					p.message <- "Opponent left the game"
+				}
+				if _, ok := h.players[player]; ok {
+					player.conn.Close()
+					delete(h.players, player)
+					close(player.board)
+					close(player.message)
+					fmt.Println("player left")
+				}
+			}
 		case board := <-h.boardChannal:
 			for player := range h.players {
 				player.board <- board

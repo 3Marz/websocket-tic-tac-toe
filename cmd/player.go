@@ -29,6 +29,7 @@ type PlayReq []int
 // Reading encomming board data from client
 func (p *Player) readPump() {
 	defer func() {
+		p.game.unregister <- p
 		p.conn.Close()
 	}()
 
@@ -48,6 +49,7 @@ func (p *Player) readPump() {
 
 func (p *Player) writePump() {
 	defer func() {
+		p.game.unregister <- p
 		p.conn.Close()
 	}()
 

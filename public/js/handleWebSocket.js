@@ -12,6 +12,7 @@ function toggleLoading() {
 }
 
 connectButton.addEventListener('click', () => {
+	if(ws) {return}
 	ws = new WebSocket("http://localhost:5050/ws");
 	ws.onopen = function(evt) {
 		connectButton.innerText = 'Connected';
@@ -19,9 +20,7 @@ connectButton.addEventListener('click', () => {
 		console.log('Connected');
 	}
 	ws.onclose = function(evt) {
-		connectButton.innerText = 'Connect';
-		console.log('Connection closed');
-		ws = null
+		resetEverything()
 	}
 	ws.onmessage = function(evt) {
 		//console.log("RESPONSE: " + evt.data);
@@ -35,6 +34,12 @@ connectButton.addEventListener('click', () => {
 			case "Your Turn":
 				yourTurn = true
 				message.innerText = "Your Turn"
+				break
+			case "Opponent left the game":
+				loading.innerText = "Opponent left the game"
+				if(ws) {
+					ws.close()
+				}
 				break
 			default:
 				let board = JSON.parse(evt.data)
@@ -54,6 +59,11 @@ closeButton.addEventListener('click', () => {
 	ws.close();
 })
 
+function resetBoard() {
+	for (const span of document.querySelectorAll('span')) {
+		span.innerText = ''
+	}
+}
 function readBoard() {
 	let board = [[], [], []];
 	for (const span of document.querySelectorAll('span')) {
@@ -65,6 +75,16 @@ function writeBoard(board) {
 	for (const span of document.querySelectorAll('span')) {
 		span.innerText = board[span.getAttribute('row')][span.getAttribute('col')]
 	}
+}
+
+function resetEverything() {
+	connectButton.innerText = 'Connect';
+	console.log('Connection closed');
+	ws = null
+	loading.innerText = loading.innerText == "Found An Opponent" ? "Left The Game" : loading.innerText
+	message.innerText = "..."
+	toggleLoading()
+	resetBoard()
 }
 
 function sendPlay(element) {
