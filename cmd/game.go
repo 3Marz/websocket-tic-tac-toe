@@ -21,6 +21,8 @@ type Game struct {
 
 	board        Board
 	boardChannel chan *Board
+
+	winner string
 }
 
 func newGame() *Game {
@@ -31,6 +33,7 @@ func newGame() *Game {
 		unregister:     make(chan *Player),
 		board:        newBoard(),
 		boardChannel: make(chan *Board),
+		winner: "",
 	}
 }
 
@@ -58,6 +61,9 @@ func (h *Game) checkWinner() (result string) {
 		mark2 := h.board[pos2[0]][pos2[1]]
 		mark3 := h.board[pos3[0]][pos3[1]]
 
+		if mark1 == " " || mark2 == " " || mark3 == " " {
+			continue
+		}
 		if (mark1 == mark2 && mark1 == mark3 && mark2 == mark3) {
 			result = mark1
 		}
@@ -86,17 +92,28 @@ func (h *Game) run() {
 				}
 			}
 		case board := <-h.boardChannel:
-			winner := h.checkWinner()
 			for player := range h.players {
 				player.board <- board
 				if(player.mark != h.turn) {
 					player.message <- "Your Turn"
 				}
-				if(winner == player.mark) {
-					player.message <- "You Win"
-				}
 			}
 			if h.turn == "X" { h.turn = "O" } else { h.turn = "X" }
+
+			winner := h.checkWinner()
+			if winner != "" {
+				h.winner = winner	
+			}
+		}
+
+		if h.winner != "" {
+			for player := range h.players {
+				if player.mark == h.winner {
+					player.message <- "You Won"
+				} else {
+					player.message <- "You Lost"
+				}
+			}
 		}
 	}
 }

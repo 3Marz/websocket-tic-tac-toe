@@ -35,6 +35,14 @@ connectButton.addEventListener('click', () => {
 				yourTurn = true
 				message.innerText = "Your Turn"
 				break
+			case "You Won":
+				loading.innerText = "You Won"
+				if(ws) { ws.close() }
+				break
+			case "You Lost":
+				loading.innerText = "You Lost"
+				if(ws) { ws.close() }
+				break
 			case "Opponent left the game":
 				loading.innerText = "Opponent left the game"
 				if(ws) {
