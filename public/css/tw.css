@@ -582,6 +582,14 @@ video {
   height: 100%;
 }
 
+.max-h-24 {
+  max-height: 6rem;
+}
+
+.min-h-24 {
+  min-height: 6rem;
+}
+
 .w-full {
   width: 100%;
 }
@@ -719,6 +727,10 @@ video {
   opacity: 0;
 }
 
+.\*\:absolute > * {
+  position: absolute;
+}
+
 .hover\:border-white:hover {
   --tw-border-opacity: 1;
   border-color: rgb(255 255 255 / var(--tw-border-opacity));
@@ -730,6 +742,14 @@ video {
 }
 
 @media (min-width: 768px) {
+  .md\:max-h-32 {
+    max-height: 8rem;
+  }
+
+  .md\:min-h-32 {
+    min-height: 8rem;
+  }
+
   .md\:min-w-32 {
     min-width: 8rem;
   }
