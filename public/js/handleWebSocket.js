@@ -74,9 +74,9 @@ function sendPlay(element) {
 	if (!yourTurn) {
 		return
 	}
-	//if(element.innerText !== '') {
-	//	return
-	//}
+	if(element.innerText !== '') {
+		return
+	}
 	//let board = readBoard()
 	//board[element.getAttribute('row')][element.getAttribute('col')] = 'X'
 	//console.log(JSON.stringify(board))
