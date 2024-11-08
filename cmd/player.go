@@ -80,14 +80,4 @@ func serveWs(lobby *Lobby, mark string, w http.ResponseWriter, r *http.Request) 
 		message: make(chan string),
 	}
 	lobby.register <- player
-	// for {
-	// 	select {
-	// 	case board := <-player.board:
-	// 		err := conn.WriteJSON(board)
-	// 		if err != nil {
-	// 			log.Println(err)
-	// 			return
-	// 		}
-	// 	}
-	// }
 }
