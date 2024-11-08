@@ -20,7 +20,7 @@ type Game struct {
 	unregister chan *Player
 
 	board        Board
-	boardChannal chan *Board
+	boardChannel chan *Board
 }
 
 func newGame() *Game {
@@ -30,7 +30,7 @@ func newGame() *Game {
 		register:     make(chan *Player),
 		unregister:     make(chan *Player),
 		board:        newBoard(),
-		boardChannal: make(chan *Board),
+		boardChannel: make(chan *Board),
 	}
 }
 
@@ -85,7 +85,7 @@ func (h *Game) run() {
 					fmt.Println("player left")
 				}
 			}
-		case board := <-h.boardChannal:
+		case board := <-h.boardChannel:
 			winner := h.checkWinner()
 			for player := range h.players {
 				player.board <- board

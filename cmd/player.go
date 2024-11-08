@@ -42,7 +42,7 @@ func (p *Player) readPump() {
 		}
 		if p.game.board[data[0]][data[1]] == " " {
 			p.game.board[data[0]][data[1]] = p.mark
-			p.game.boardChannal <- &p.game.board
+			p.game.boardChannel <- &p.game.board
 		}
 	}
 }
