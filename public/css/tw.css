@@ -722,13 +722,17 @@ video {
   opacity: 0.8;
 }
 
-.hide-down {
-  z-index: -10;
-  opacity: 0;
+.duration-200 {
+  transition-duration: 200ms;
 }
 
-.\*\:absolute > * {
-  position: absolute;
+.duration-1000 {
+  transition-duration: 1000ms;
+}
+
+.hide-down {
+  pointer-events: none;
+  opacity: 0;
 }
 
 .hover\:border-white:hover {

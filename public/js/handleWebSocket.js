@@ -28,8 +28,9 @@ connectButton.addEventListener('click', () => {
 		//console.log(evt)
 		switch (evt.data) {
 			case "Got A Game":
+				loading.innerText = "Found An Opponent"
 				toggleLoading()
-				message.innerText = "Got A Game"
+				message.innerText = "Opponent Turn..."
 				break
 			case "Your Turn":
 				yourTurn = true

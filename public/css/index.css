@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 .hide-down {
-	z-index: -10;
+	pointer-events: none;
 	opacity: 0;
 }
