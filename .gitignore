@@ -1,3 +1,5 @@
 tmp
 bin
 tailwindcss
+public/css/tw.css
+public/css/tw.min.css
