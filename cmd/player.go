@@ -79,5 +79,5 @@ func serveWs(lobby *Lobby, mark string, w http.ResponseWriter, r *http.Request) 
 		board:   make(chan *Board),
 		message: make(chan string),
 	}
-	lobby.register <- player
+	lobby.registerPlayer <- player
 }
