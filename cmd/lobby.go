@@ -10,20 +10,20 @@ import (
 type Lobby struct {
 	players []*Player
 
-	register chan *Player
+	registerPlayer chan *Player
 }
 
 func newLobby() *Lobby {
 	return &Lobby{
 		players:  []*Player{},
-		register: make(chan *Player),
+		registerPlayer: make(chan *Player),
 	}
 }
 
 func (l *Lobby) run() {
 	for {
 		select {
-		case player := <-l.register:
+		case player := <-l.registerPlayer:
 			l.players = append(l.players, player)
 		}
 
