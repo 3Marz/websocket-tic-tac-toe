@@ -89,6 +89,7 @@ function writeBoard(board) {
 function resetEverything() {
 	connectButton.innerText = 'Connect';
 	console.log('Connection closed');
+	yourTurn = false
 	ws = null
 	loading.innerText = loading.innerText == "Found An Opponent" ? "Left The Game" : loading.innerText
 	message.innerText = "..."
