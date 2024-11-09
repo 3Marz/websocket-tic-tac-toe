@@ -22,6 +22,9 @@ type Game struct {
 	board        Board
 	boardChannel chan *Board
 
+	lobby *Lobby
+	numberOfClosed int
+
 	winner string
 }
 
@@ -33,6 +36,7 @@ func newGame() *Game {
 		unregister:     make(chan *Player),
 		board:        newBoard(),
 		boardChannel: make(chan *Board),
+		numberOfClosed: 0,
 		winner: "",
 	}
 }
@@ -73,6 +77,9 @@ func (h *Game) checkWinner() (result string) {
 }
 
 func (h *Game) run() {
+	defer func() {
+		h.lobby.unregisterGame <- h
+	}()
 	for {
 		select {
 		case player := <-h.register:
@@ -85,9 +92,10 @@ func (h *Game) run() {
 				}
 				if _, ok := h.players[player]; ok {
 					player.conn.Close()
-					delete(h.players, player)
 					close(player.board)
 					close(player.message)
+					delete(h.players, player)
+					h.numberOfClosed++
 					fmt.Println("player left")
 				}
 			}
@@ -114,6 +122,10 @@ func (h *Game) run() {
 					player.message <- "You Lost"
 				}
 			}
+		}
+
+		if h.numberOfClosed >= 2 {
+			return
 		}
 	}
 }

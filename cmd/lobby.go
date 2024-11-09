@@ -9,14 +9,20 @@ import (
 
 type Lobby struct {
 	players []*Player
+	games map[*Game]bool
 
 	registerPlayer chan *Player
+	registerGame chan *Game
+	unregisterGame chan *Game
 }
 
 func newLobby() *Lobby {
 	return &Lobby{
 		players:  []*Player{},
+		games:    make(map[*Game]bool),
 		registerPlayer: make(chan *Player),
+		registerGame: make(chan *Game, 1),
+		unregisterGame: make(chan *Game),
 	}
 }
 
@@ -25,18 +31,29 @@ func (l *Lobby) run() {
 		select {
 		case player := <-l.registerPlayer:
 			l.players = append(l.players, player)
+		case game := <-l.registerGame:
+			l.games[game] = true
+			fmt.Println("Register game")
+		case game := <-l.unregisterGame:
+			if _, ok := l.games[game]; ok {
+				delete(l.games, game)
+				close(game.boardChannel)
+				close(game.register)
+				close(game.unregister)
+				fmt.Println("Unregister game")
+			}
 		}
 
 		if len(l.players) >= 2 {
 			fmt.Println("start game")
-			startGame(l.players[len(l.players)-1], l.players[len(l.players)-2])
+			startGame(l.players[len(l.players)-1], l.players[len(l.players)-2],l)
 			//Delete the last two players
 			l.players = l.players[:len(l.players)-2]
 		}
 	}
 }
 
-func startGame(p1 *Player, p2 *Player) {
+func startGame(p1 *Player, p2 *Player, lobby *Lobby) {
 	game := newGame()
 	go game.run()
 
@@ -64,4 +81,6 @@ func startGame(p1 *Player, p2 *Player) {
 		p2.message <- "Your Turn"
 		p2.mark = "X"
 	}
+	game.lobby = lobby
+	game.lobby.registerGame <- game
 }

@@ -49,7 +49,6 @@ func (p *Player) readPump() {
 
 func (p *Player) writePump() {
 	defer func() {
-		p.game.unregister <- p
 		p.conn.Close()
 	}()
 
