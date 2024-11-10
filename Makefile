@@ -2,10 +2,6 @@
 tailwind-watch:
 	./tailwindcss -i ./public/css/index.css -o ./public/css/tw.css --watch
 
-.PHONY: tailwind-build2
-tailwind-build2:
-	./tailwindcss -i ./public/css/index.css -o ./public/css/tailwind.css --watch
-
 .PHONY: tailwind-build
 tailwind-build:
 	./tailwindcss -i ./public/css/index.css -o ./public/css/tw.min.css --minify
@@ -39,4 +35,4 @@ dev:
 .PHONY: build
 build:
 	make tailwind-build
-	go build -ldflags "-X main.Environment=production" -o ./bin/$(APP_NAME) ./cmd/$(APP_NAME)/main.go
+	go build -ldflags "-X main.Environment=production" -o ./bin/$(APP_NAME) ./cmd/$(APP_NAME)/*.go
